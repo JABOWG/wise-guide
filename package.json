@@ -1,0 +1,19 @@
+{
+  "name": "wise-guide",
+  "version": "1.0.0",
+  "description": "An innovative web application built with the MERN Stack (MongoDB, Express.js, React, Node.js) that leverages artificial intelligence to provide personalized tutoring and assistance across a wide range of subjects for learners of all ages",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server --ignore client",
+    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
