@@ -12,20 +12,20 @@ type User {
 }
 
   type Question {
-    questionId: ID
+    _id: ID
     answer: String
     title: String
   }  
 
   type SavedQuestion {
-    questionId: ID
+    _id: ID
     answer: [String]
     title: String
   }
 
   input QuestionInput {
     answer: String
-    questionId: ID
+    _id: ID
     title: String
   }
 
