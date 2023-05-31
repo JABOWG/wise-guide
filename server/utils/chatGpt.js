@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
+require('dotenv').config();
 
 // You will need your API key from OpenAI
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = process.env.CHATKEY;
 
 const askGPT = async (prompt) => {
   try {
@@ -12,12 +13,12 @@ const askGPT = async (prompt) => {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        max_tokens: 100,
+        max_tokens: 200,
         model: 'gpt-3.5-turbo',
         messages: [
           {
             role: 'system',
-            content: 'assistant'
+            content: 'Teacher who cares about of students'
           },
           {
             role: 'user',

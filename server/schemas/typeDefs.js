@@ -15,7 +15,6 @@ type User {
     questionId: ID
     answer: String
     title: String
-    content: String
   }  
 
   type SavedQuestion {
