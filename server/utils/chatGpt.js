@@ -34,6 +34,7 @@ console.log('OpenAI response:', data);
 if (data.choices && data.choices.length > 0 && data.choices[0].message) {
 
   const question = {
+    title: prompt,
     answer: data.choices[0].message.content.trim(),
   };
   return question;
