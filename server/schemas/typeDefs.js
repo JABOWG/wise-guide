@@ -15,6 +15,7 @@ type User {
     questionId: ID
     answer: String
     title: String
+    content: String
   }  
 
   type SavedQuestion {
@@ -37,7 +38,7 @@ type User {
   type Query {
     me: User
     user(username: String, id: ID): User
-    searchQuestion(query: String!): [Question]
+    searchQuestion(query: String!): Question
     searchSavedQuestion(query: String!): [SavedQuestion]
   }
 

@@ -19,8 +19,9 @@ const resolvers = {
         const answer = await askGPT(query); // Use the imported function
         return answer; // Return the answer
       } catch (err) {
-        console.error('Error:', err);
+        console.error("Error in askGPT function: ", err);
         throw new Error('Failed to fetch answer data from the external API.');
+        
       }
     },
 
