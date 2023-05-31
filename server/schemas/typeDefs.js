@@ -1,32 +1,24 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 // create type definitions
 // typeDefs is a template literal tag, so it will be parsed into an abstract syntax tree
 const typeDefs = gql`
-type User {
-  _id: ID
-  username: String
-  email: String
-  questionCount: Int
-  savedQuestions: [Question]
-}
-
-  type Question {
-    _id: ID
-    answer: String
-    title: String
-  }  
-
-  type SavedQuestion {
-    _id: ID
-    answer: [String]
-    title: String
+  type User {
+    _id: ID!
+    username: String!
+    email: String!
+    sessions: [Session!]!
   }
 
-  input QuestionInput {
-    answer: String
-    _id: ID
-    title: String
+  type Session {
+    _id: ID!
+    messages: [Message!]!
+  }
+
+  type Message {
+    _id: ID!
+    userQuestion: String!
+    aiResponse: String!
   }
 
   type Auth {
@@ -36,16 +28,19 @@ type User {
 
   type Query {
     me: User
-    user(username: String, id: ID): User
-    searchQuestion(query: String!): Question
-    searchSavedQuestion(query: String!): [SavedQuestion]
+    getAllUsers: [User!]!
+    getUser(userId: ID!): User
+    getAllSessions: [Session!]!
+    getSession(sessionId: ID!): Session
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
-    saveQuestion(questionData: QuestionInput!): User
-    removeQuestion(userId: ID, questionId: ID): User
+    createUser(username: String!, email: String!, password: String!): Auth
+    removeUser: User
+    createSession(userId: ID!): Session
+    removeSession(sessionId: ID!): Session
+    createMessage(sessionId: ID!, userQuestion: String!): Message
   }
 `;
 
