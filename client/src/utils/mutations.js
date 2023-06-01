@@ -6,51 +6,71 @@ export const LOGIN_USER = gql`
       token
       user {
         _id
+        email
         username
       }
     }
   }
 `;
 
-export const SAVE_QUESTION = gql`
-  mutation saveQuestion($questionData: QuestionInput!) {
-    saveQuestion(questionData: $questionData) {
-      _id
-      username
-      email
-      questionCount
-      savedQuestions {
-        questionId
-        answer
-        title
-      }
-    }
-  }
-`;
-
-export const REMOVE_QUESTION = gql`
-  mutation removeQuestion($questionId: ID!) {
-    removeQuestion(questionId: $questionId) {
-      _id
-      username
-      email
-      questionCount
-      savedQuestions {
-        questionId
-        answer
-        title
-      }
-    }
-  }
-`;
-
-export const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
+export const CREATE_USER = gql`
+  mutation createUser($username: String!, $email: String!, $password: String!) {
+    createUser(username: $username, email: $email, password: $password) {
       token
       user {
+        email
+        _id
+        username
+      }
+    }
+  }
+`;
+
+export const REMOVE_USER = gql`
+  mutation removeUser {
+    removeUser {
+      _id
+      email
+      username
+      sessions {
         _id
       }
+    }
+  }
+`;
+
+export const CREATE_SESSION = gql`
+  mutation createSession($userId: ID!) {
+    createSession(userId: $userId) {
+      _id
+      messages {
+        _id
+        aiResponse
+        userQuestion
+      }
+    }
+  }
+`;
+
+export const REMOVE_SESSION = gql`
+  mutation removeSession($sessionId: ID!) {
+    removeSession(sessionId: $sessionId) {
+      _id
+      messages {
+        _id
+        aiResponse
+        userQuestion
+      }
+    }
+  }
+`;
+
+export const CREATE_MESSAGE = gql`
+  mutation createMessage($sessionId: ID!, $userQuestion: String!) {
+    createMessage(sessionId: $sessionId, userQuestion: $userQuestion) {
+      _id
+      aiResponse
+      userQuestion
     }
   }
 `;
