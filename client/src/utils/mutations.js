@@ -1,76 +1,72 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
+// Here we define the mutations we will be sending to the GraphQL server
+// The login mutation accepts an email and password as parameters
+// The mutation returns an Auth type, which includes a token and a user object
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
+  mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
       user {
         _id
-        email
         username
       }
     }
   }
 `;
 
-export const CREATE_USER = gql`
-  mutation createUser($username: String!, $email: String!, $password: String!) {
-    createUser(username: $username, email: $email, password: $password) {
+// ADD_USER mutation is responsible for allowing users to create an account
+export const ADD_USER = gql`
+  mutation addUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password) {
       token
       user {
-        email
         _id
-        username
       }
     }
   }
 `;
 
-export const REMOVE_USER = gql`
-  mutation removeUser {
-    removeUser {
+export const SEARCH_QUESTIONS = gql`
+  query SearchQuestion($query: String!) {
+    searchQuestion(query: $query) {
       _id
-      email
+      answer
+      title
+    }
+  }
+`;
+
+// THE SAVE_QUESTION mutation is responsible for allowing logged in users to save a question to their account
+export const SAVE_QUESTION = gql`
+  mutation SaveQuestion($questionData: QuestionInput!) {
+    saveQuestion(questionData: $questionData) {
+      _id
       username
-      sessions {
+      email
+      questionCount
+      savedQuestions {
         _id
+        answer
+        title
       }
     }
   }
 `;
 
-export const CREATE_SESSION = gql`
-  mutation createSession($userId: ID!) {
-    createSession(userId: $userId) {
+// DELETE_QUESTION mutation is responsible for allowing logged in users to remove a Question from their account
+export const REMOVE_QUESTION = gql`
+  mutation RemoveQuestion($userId: ID, $questionId: ID) {
+    removeQuestion(userId: $userId, questionId: $questionId) {
       _id
-      messages {
+      username
+      email
+      questionCount
+      savedQuestions {
         _id
-        aiResponse
-        userQuestion
+        answer
+        title
       }
-    }
-  }
-`;
-
-export const REMOVE_SESSION = gql`
-  mutation removeSession($sessionId: ID!) {
-    removeSession(sessionId: $sessionId) {
-      _id
-      messages {
-        _id
-        aiResponse
-        userQuestion
-      }
-    }
-  }
-`;
-
-export const CREATE_MESSAGE = gql`
-  mutation createMessage($sessionId: ID!, $userQuestion: String!) {
-    createMessage(sessionId: $sessionId, userQuestion: $userQuestion) {
-      _id
-      aiResponse
-      userQuestion
     }
   }
 `;

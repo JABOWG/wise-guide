@@ -1,12 +1,11 @@
 const { Schema } = require('mongoose');
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedQuestions` array in User.js
 const questionSchema = new Schema({
-  answer: {
-    type: String,
-    required: true,
+  _id: {
+    type: Schema.Types.ObjectId,
+    default: () => new mongoose.Types.ObjectId(),
   },
-  questionId: {
+  answer: {
     type: String,
     required: true,
   },

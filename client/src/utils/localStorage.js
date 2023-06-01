@@ -1,6 +1,6 @@
 export const getSavedQuestionIds = () => {
-  const savedQuestionIds = localStorage.getItem("saved_questions")
-    ? JSON.parse(localStorage.getItem("saved_questions"))
+  const savedQuestionIds = localStorage.getItem('saved_questions')
+    ? JSON.parse(localStorage.getItem('saved_questions'))
     : [];
 
   return savedQuestionIds;
@@ -8,15 +8,15 @@ export const getSavedQuestionIds = () => {
 
 export const saveQuestionIds = (questionIdArr) => {
   if (questionIdArr.length) {
-    localStorage.setItem("saved_questions", JSON.stringify(questionIdArr));
+    localStorage.setItem('saved_questions', JSON.stringify(questionIdArr));
   } else {
-    localStorage.removeItem("saved_questions");
+    localStorage.removeItem('saved_questions');
   }
 };
 
-export const removeQuestionId = (questionId) => {
-  const savedQuestionIds = localStorage.getItem("saved_questions")
-    ? JSON.parse(localStorage.getItem("saved_questions"))
+export const removeQuestionByTitle = (questionTitle) => {
+  const savedQuestionIds = localStorage.getItem('saved_questions')
+    ? JSON.parse(localStorage.getItem('saved_questions'))
     : null;
 
   if (!savedQuestionIds) {
@@ -24,12 +24,9 @@ export const removeQuestionId = (questionId) => {
   }
 
   const updatedSavedQuestionIds = savedQuestionIds?.filter(
-    (savedQuestionId) => savedQuestionId !== questionId
+    (savedQuestionTitle) => savedQuestionTitle !== questionTitle
   );
-  localStorage.setItem(
-    "saved_questions",
-    JSON.stringify(updatedSavedQuestionIds)
-  );
+  localStorage.setItem('saved_questions', JSON.stringify(updatedSavedQuestionIds));
 
   return true;
 };

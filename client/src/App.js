@@ -1,19 +1,19 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-// import your components
-// import NewQuestion from "./components/NewQuestion";
-// import QuestionHistory from "./components/QuestionHistory";
-import Navbar from "./components/Navbar";
+import SearchQuestions from './pages/SearchQuestion';
+import SavedQuestion from './pages/SavedQuestion';
+import Navbar from './components/Navbar';
+
 
 // The ApolloProvider component wraps the entire application and allows us to share data between all of the components that we will create
 const client = new ApolloClient({
-  uri: "/graphql",
+  uri: '/graphql',
   cache: new InMemoryCache(),
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("id_token")}`,
-  },
+    Authorization: `Bearer ${localStorage.getItem('id_token')}`
+  }
 });
 
 // Here we creating the set of routes for the application
@@ -23,13 +23,11 @@ function App() {
       <Router>
         <>
           <Navbar />
-          <Routes>
-            {/* new routes for NewQuestion and QuestionHistory */}
-            {/* <Route exact path="/new-question" component={NewQuestion} /> */}
-            {/* <Route exact path="/question-history" component={QuestionHistory} /> */}
-            {/* redirect to '/new-question' if no match */}
-            {/* <Route render={() => <Redirect to="/new-question" />} /> */}
-          </Routes>
+          <Switch>
+            <Route exact path='/' component={SearchQuestions} />
+            <Route exact path='/saved' component={SavedQuestion} />
+            <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
+          </Switch>
         </>
       </Router>
     </ApolloProvider>

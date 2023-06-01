@@ -1,54 +1,112 @@
-export const getMe = (token) => {
-  return fetch("/api/users/me", {
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:3001/graphql',
+  cache: new InMemoryCache(),
+  headers: {
+    authorization: localStorage.getItem('token') || "",
+  },
+});
+
+export const getMe = async () => {
+  const { data } = await client.query({
+    query: gql`
+      query me {
+        me {
+          _id
+          username
+          email
+          questionCount
+          savedQuestions {
+            _id
+            answer
+            title
+          }
+        }
+      }
+    `,
   });
+  return data.me;
 };
 
-export const createUser = (userData) => {
-  return fetch("/api/users", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
+export const createUser = async (userData) => {
+  const { data } = await client.mutate({
+    mutation: gql`
+      mutation addUser($username: String!, $email: String!, $password: String!) {
+        addUser(username: $username, email: $email, password: $password) {
+          token
+          user {
+            _id
+          }
+        }
+      }
+    `,
+    variables: userData,
   });
+  return data.addUser;
 };
 
-export const loginUser = (userData) => {
-  return fetch("/api/users/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
+export const loginUser = async (userData) => {
+  const { data } = await client.mutate({
+    mutation: gql`
+      mutation Login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+          token
+          user {
+            _id
+            username
+          }
+        }
+      }
+    `,
+    variables: userData,
   });
+  return data.login;
 };
 
-export const saveQuestion = (questionData, token) => {
-  return fetch("/api/users", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(questionData),
+export const saveQuestion = async (questionData) => {
+  const { data } = await client.mutate({
+    mutation: gql`
+      mutation SaveQuestion($questionData: QuestionInput!) {
+        saveQuestion(questionData: $questionData) {
+          _id
+          username
+          email
+          questionCount
+          savedQuestions {
+            _id
+            answer
+            title
+          }
+        }
+      }
+    `,
+    variables: { questionData },
   });
+  return data.saveQuestion;
 };
 
-export const deleteQuestion = (questionId, token) => {
-  return fetch(`/api/users/questions/${questionId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
+export const deleteQuestion = async (userId, questionId) => {
+  const { data } = await client.mutate({
+    mutation: gql`
+      mutation RemoveQuestion($userId: ID, $questionId: ID) {
+        removeQuestion(userId: $userId, questionId: $questionId) {
+          _id
+          username
+          email
+          questionCount
+          savedQuestions {
+            _id
+            answer
+            title
+          }
+        }
+      }
+    `,
+    variables: { userId, questionId },
   });
+  return data.removeQuestion;
 };
 
-export const searchOpenAI = (query) => {
-  return fetch(
-    `https://api.openai.com/v1/engines/davinci/completions?prompt=${query}`
-  );
+export const searchQuestions = async (query) => {
 };

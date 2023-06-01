@@ -1,45 +1,28 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
+// Here we define the queries we will be sending to the GraphQL server
 export const GET_ME = gql`
   query me {
     me {
       _id
-      email
       username
-      sessions {
+      email
+      questionCount
+      savedQuestions {
         _id
-        messages {
-          _id
-          aiResponse
-          userQuestion
-        }
+        answer
+        title
       }
     }
   }
 `;
 
-export const GET_ALL_SESSIONS = gql`
-  query GetAllSessions {
-    getAllSessions {
+export const SEARCH_QUESTIONS = gql`
+  query SearchQuestion($query: String!) {
+    searchQuestion(query: $query) {
       _id
-      messages {
-        _id
-        aiResponse
-        userQuestion
-      }
-    }
-  }
-`;
-
-export const GET_SESSION = gql`
-  query getSession($sessionId: ID!) {
-    getSession(sessionId: $sessionId) {
-      _id
-      messages {
-        _id
-        aiResponse
-        userQuestion
-      }
+      answer
+      title
     }
   }
 `;

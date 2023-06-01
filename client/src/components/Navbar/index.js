@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
-import SignUpForm from "../SignupForm";
-import LoginForm from "../LoginForm";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import Auth from "../../utils/auth";
+import SignUpForm from '../SignupForm';
+import LoginForm from '../LoginForm';
+
+import Auth from '../../utils/auth';
 
 const AppNavbar = () => {
   // set modal display state
@@ -12,67 +12,87 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Container fluid>
-          <Navbar.Brand as={Link} to="/">
-            My Personal Tutor Q&A
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbar" />
-          <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
-            <Nav className="ml-auto d-flex">
-              {/* if user is logged in show question history and logout */}
+      <nav className="navbar navbar-dark bg-dark">
+        <div className="container-fluid">
+          <Link to="/" className="navbar-brand">
+            Wise Guide!
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar"
+            aria-controls="navbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse d-flex flex-row-reverse" id="navbar">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to="/" className="nav-link">
+                  Ask a question about your homework!
+                </Link>
+              </li>
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to="/new-question">
-                    Ask New Question
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/question-history">
-                    My Question History
-                  </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <li className="nav-item">
+                    <Link to="/saved" className="nav-link">
+                      See Your Questions
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={Auth.logout}>
+                      Logout
+                    </button>
+                  </li>
                 </>
               ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>
-                  Login/Sign Up
-                </Nav.Link>
+                <li className="nav-item">
+                  <button className="nav-link" onClick={() => setShowModal(true)}>
+                    Login/Sign Up
+                  </button>
+                </li>
               )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+            </ul>
+          </div>
+        </div>
+      </nav>
       {/* set modal data up */}
-      <Modal
-        size="lg"
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        aria-labelledby="signup-modal"
-      >
-        {/* tab container to do either signup or login component */}
-        <Tab.Container defaultActiveKey="login">
-          <Modal.Header closeButton>
-            <Modal.Title id="signup-modal">
-              <Nav variant="pills">
-                <Nav.Item>
-                  <Nav.Link eventKey="login">Login</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="signup">Sign Up</Nav.Link>
-                </Nav.Item>
-              </Nav>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Tab.Content>
-              <Tab.Pane eventKey="login">
-                <LoginForm handleModalClose={() => setShowModal(false)} />
-              </Tab.Pane>
-              <Tab.Pane eventKey="signup">
-                <SignUpForm handleModalClose={() => setShowModal(false)} />
-              </Tab.Pane>
-            </Tab.Content>
-          </Modal.Body>
-        </Tab.Container>
-      </Modal>
+      {showModal && (
+        <div className="modal" tabIndex="-1" role="dialog">
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <ul className="nav nav-pills">
+                  <li className="nav-item">
+                    <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#login-tab">
+                      Login
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button className="nav-link" data-bs-toggle="tab" data-bs-target="#signup-tab">
+                      Sign Up
+                    </button>
+                  </li>
+                </ul>
+                <button className="btn-close" onClick={() => setShowModal(false)}></button>
+              </div>
+              <div className="modal-body">
+                <div className="tab-content">
+                  <div className="tab-pane fade show active" id="login-tab">
+                    <LoginForm handleModalClose={() => setShowModal(false)} />
+                  </div>
+                  <div className="tab-pane fade" id="signup-tab">
+                    <SignUpForm handleModalClose={() => setShowModal(false)} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
