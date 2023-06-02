@@ -26,6 +26,9 @@ const SearchQuestions = () => {
     }
   }, [searchQuestionData]);
 
+  
+  
+
   const handleSaveQuestion = async (questionData) => {
     const { answer } = questionData;
     const title = searchInput; // set title as user's query
