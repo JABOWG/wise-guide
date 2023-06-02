@@ -29,7 +29,8 @@ const SearchQuestions = () => {
   }, [searchQuestionData]);
 
   const handleSaveQuestion = async (questionData) => {
-    const { answer, title } = questionData;
+    const { answer } = questionData;
+    const title = searchInput; // set title as user's query
   
     const token = Auth.loggedIn() ? Auth.getToken() : null;
   
@@ -42,7 +43,7 @@ const SearchQuestions = () => {
     try {
       await saveQuestion({
         variables: {
-          questionData: { answer, title },
+          questionData: { answer, title }, // title now is the user's query
         },
         update: (cache) => {
           cache.writeQuery({
@@ -57,6 +58,7 @@ const SearchQuestions = () => {
       console.error(err);
     }
   };
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
