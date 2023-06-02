@@ -6,11 +6,9 @@ import { SEARCH_QUESTIONS } from '../utils/queries';
 import Auth from '../utils/auth';
 import { saveQuestionIds, getSavedQuestionIds } from '../utils/localStorage';
 
-
 const SearchQuestions = () => {
   const [searchedQuestions, setSearchedQuestions] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-
   const [savedQuestionIds, setSavedQuestionIds] = useState(getSavedQuestionIds());
 
   useEffect(() => {
@@ -18,7 +16,7 @@ const SearchQuestions = () => {
   }, [savedQuestionIds]);
 
   const [saveQuestion] = useMutation(SAVE_QUESTION);
-  const [searchQuestions, { data: searchQuestionData }] = useLazyQuery(SEARCH_QUESTIONS);
+  const [searchQuestions, { loading, data: searchQuestionData }] = useLazyQuery(SEARCH_QUESTIONS);
 
   useEffect(() => {
     if (searchQuestionData) {
@@ -83,27 +81,31 @@ const SearchQuestions = () => {
         </form>
       </div>
 
-      <div className='search-results'>
-        <h2>
-          {searchedQuestions.length
-            ? `Viewing ${searchedQuestions.length} results:`
-            : 'Search for a question to begin'}
-        </h2>
-        {searchedQuestions.map((question) => (
-          <div className='question-card' key={question.questionId}>
-            <h3>{question.title}</h3>
-            <p>{question.answer}</p>
-            <button
-              disabled={savedQuestionIds?.some((savedQuestionId) => savedQuestionId === question.questionId)}
-              onClick={() => handleSaveQuestion(question)}
-            >
-              {savedQuestionIds?.some((savedQuestionId) => savedQuestionId === question.questionId)
-                ? 'This question has already been saved!'
-                : 'Save this Question!'}
-            </button>
-          </div>
-        ))}
-      </div>
+      {loading ? 
+        <img src="https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif" alt="Loading..." /> 
+        : (
+        <div className='search-results'>
+          <h2>
+            {searchedQuestions.length
+              ? `Viewing ${searchedQuestions.length} results:`
+              : 'Search for a question to begin'}
+          </h2>
+          {searchedQuestions.map((question) => (
+            <div className='question-card' key={question.questionId}>
+              <h3>{question.title}</h3>
+              <p>{question.answer}</p>
+              <button
+                disabled={savedQuestionIds?.some((savedQuestionId) => savedQuestionId === question.questionId)}
+                onClick={() => handleSaveQuestion(question)}
+              >
+                {savedQuestionIds?.some((savedQuestionId) => savedQuestionId === question.questionId)
+                  ? 'This question has already been saved!'
+                  : 'Save this Question!'}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };
