@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import Auth from '../../utils/auth';
-import { ADD_USER } from '../../utils/mutations';
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import Auth from "../../utils/auth";
+import { ADD_USER } from "../../utils/mutations";
 
 const SignupForm = () => {
-  const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
+  const [userFormData, setUserFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [showAlert, setShowAlert] = useState(false);
 
   const [addUser, { error }] = useMutation(ADD_USER);
@@ -26,65 +30,88 @@ const SignupForm = () => {
         const { token } = data.addUser;
         Auth.login(token);
       } else {
-        throw new Error('createUser not returned by the mutation');
+        throw new Error("createUser not returned by the mutation");
       }
     } catch (e) {
       console.error(e);
       setShowAlert(true);
     }
 
-    setUserFormData({ username: '', email: '', password: '' });
+    setUserFormData({ username: "", email: "", password: "" });
   };
 
   return (
     <>
       <form noValidate onSubmit={handleFormSubmit}>
-        {showAlert ? <div className='alert alert-danger'>Something went wrong with your signup!</div> : null}
+        {showAlert ? (
+          <div className="notification is-danger">
+            Something went wrong with your signup!
+          </div>
+        ) : null}
 
-        <div className='mb-3'>
-          <label htmlFor='username'>Username</label>
-          <input
-            type='text'
-            placeholder='Your username'
-            name='username'
-            onChange={handleInputChange}
-            value={userFormData.username}
-            required
-          />
-          {userFormData.username ? null : <div className='invalid-feedback'>Username is required!</div>}
+        <div className="field">
+          <label className="label" htmlFor="username">
+            Username
+          </label>
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              placeholder="Your username"
+              name="username"
+              onChange={handleInputChange}
+              value={userFormData.username}
+              required
+            />
+          </div>
         </div>
 
-        <div className='mb-3'>
-          <label htmlFor='email'>Email</label>
-          <input
-            type='email'
-            placeholder='Your email address'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
-          />
-          {userFormData.email ? null : <div className='invalid-feedback'>Email is required!</div>}
+        <div className="field">
+          <label className="label" htmlFor="email">
+            Email
+          </label>
+          <div className="control">
+            <input
+              className="input"
+              type="email"
+              placeholder="Your email address"
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+              required
+            />
+          </div>
         </div>
 
-        <div className='mb-3'>
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
-          />
-          {userFormData.password ? null : <div className='invalid-feedback'>Password is required!</div>}
+        <div className="field">
+          <label className="label" htmlFor="password">
+            Password
+          </label>
+          <div className="control">
+            <input
+              className="input"
+              type="password"
+              placeholder="Your password"
+              name="password"
+              onChange={handleInputChange}
+              value={userFormData.password}
+              required
+            />
+          </div>
         </div>
 
         <button
-          disabled={!(userFormData.username && userFormData.email && userFormData.password)}
-          type='submit'
-          className='btn btn-success'>
-          Submit
+          className="button is-success"
+          disabled={
+            !(
+              userFormData.username &&
+              userFormData.email &&
+              userFormData.password
+            )
+          }
+          type="submit"
+        >
+          SignUp
         </button>
       </form>
     </>

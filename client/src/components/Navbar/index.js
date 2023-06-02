@@ -1,95 +1,112 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import SignUpForm from '../SignupForm';
-import LoginForm from '../LoginForm';
+import SignUpForm from "../SignupForm";
+import LoginForm from "../LoginForm";
 
-import Auth from '../../utils/auth';
+import Auth from "../../utils/auth";
+
+import "bulma/css/bulma.css";
 
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <>
-      <nav className="navbar navbar-dark bg-dark">
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            Wise Guide!
+      <nav
+        className="navbar"
+        role="navigation"
+        aria-label="main navigation"
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/Nav-background.jpg)`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="navbar-brand">
+          <Link className="navbar-item title is-1" to="/">
+            Wise Guide!👼
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbar"
-            aria-controls="navbar"
+
+          <a
+            role="button"
+            className={`navbar-burger burger ${isActive ? "is-active" : ""}`}
+            aria-label="menu"
             aria-expanded="false"
-            aria-label="Toggle navigation"
+            data-target="navbarBasicExample"
+            onClick={() => {
+              setIsActive(!isActive);
+            }}
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse d-flex flex-row-reverse" id="navbar">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to="/" className="nav-link">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div
+          id="navbarBasicExample"
+          className={`navbar-menu ${isActive ? "is-active" : ""}`}
+        >
+          <div className="navbar-end">
+            <div className="navbar-item">
+              <div className="buttons">
+                <Link className="button is-link" to="/">
                   Ask a question about your homework!
                 </Link>
-              </li>
-              {Auth.loggedIn() ? (
-                <>
-                  <li className="nav-item">
-                    <Link to="/saved" className="nav-link">
+
+                {Auth.loggedIn() ? (
+                  <>
+                    <Link className="button is-success" to="/saved">
                       See Your Questions
                     </Link>
-                  </li>
-                  <li className="nav-item">
-                    <button className="nav-link" onClick={Auth.logout}>
+                    <button className="button is-danger" onClick={Auth.logout}>
                       Logout
                     </button>
-                  </li>
-                </>
-              ) : (
-                <li className="nav-item">
-                  <button className="nav-link" onClick={() => setShowModal(true)}>
+                  </>
+                ) : (
+                  <button
+                    className="button is-success"
+                    onClick={() => setShowModal(true)}
+                  >
                     Login/Sign Up
                   </button>
-                </li>
-              )}
-            </ul>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </nav>
-      {/* set modal data up */}
+
       {showModal && (
-        <div className="modal" tabIndex="-1" role="dialog">
-          <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <ul className="nav nav-pills">
-                  <li className="nav-item">
-                    <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#login-tab">
-                      Login
-                    </button>
-                  </li>
-                  <li className="nav-item">
-                    <button className="nav-link" data-bs-toggle="tab" data-bs-target="#signup-tab">
-                      Sign Up
-                    </button>
-                  </li>
-                </ul>
-                <button className="btn-close" onClick={() => setShowModal(false)}></button>
-              </div>
-              <div className="modal-body">
-                <div className="tab-content">
-                  <div className="tab-pane fade show active" id="login-tab">
-                    <LoginForm handleModalClose={() => setShowModal(false)} />
-                  </div>
-                  <div className="tab-pane fade" id="signup-tab">
-                    <SignUpForm handleModalClose={() => setShowModal(false)} />
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="modal is-active">
+          <div className="modal-background"></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title">Account</p>
+              <button
+                className="delete"
+                aria-label="close"
+                onClick={() => setShowModal(false)}
+              ></button>
+            </header>
+            <section className="modal-card-body">
+              <h3 class="notification is-warning">
+                Login to Save your Questions!!
+              </h3>
+              <LoginForm handleModalClose={() => setShowModal(false)} />
+              <br />
+              <h3 class="notification is-warning">Create your Account:</h3>
+              <SignUpForm handleModalClose={() => setShowModal(false)} />
+            </section>
+            <footer className="modal-card-foot">
+              <button className="button" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+            </footer>
           </div>
         </div>
       )}
