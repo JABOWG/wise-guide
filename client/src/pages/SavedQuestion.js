@@ -24,8 +24,8 @@ const SavedQuestion = () => {
                 variables: { questionId },
                 update: (cache) => {
                     const existingUser = cache.readQuery({ query: GET_ME });
-                    const newUser = existingUser.me.SavedQuestions.filter(question => question.questionId !== questionId);
-                    cache.writeQuery({ query: GET_ME, data: { me: { ...existingUser.me, SavedQuestions: newUser } } });
+                    const newUser = existingUser.me.savedQuestions.filter(question => question._id !== questionId);
+                    cache.writeQuery({ query: GET_ME, data: { me: { ...existingUser.me, savedQuestions: newUser } } });
                 }
             });
 
@@ -42,10 +42,10 @@ const SavedQuestion = () => {
     return (
         <>
              <h1>Welcome, {userData.username}! Here are your saved questions:</h1>
-             {userData.SavedQuestions.length ? (
-              userData.SavedQuestions.map((question) => (
-                <div key={question.questionId} className="question">
-                <button className="question-button" onClick={() => handleDeleteQuestion(question.questionId)}>
+             {userData.savedQuestions?.length ? (
+              userData.savedQuestions.map((question) => (
+                <div key={question._id} className="question">
+                <button className="question-button" onClick={() => handleDeleteQuestion(question._id)}>
               {question.title}
             </button>
             <div className="question-answer">{question.answer}</div>
