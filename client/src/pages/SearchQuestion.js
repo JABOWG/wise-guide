@@ -6,6 +6,7 @@ import { SEARCH_QUESTIONS } from '../utils/queries';
 import Auth from '../utils/auth';
 import { saveQuestionIds, getSavedQuestionIds } from '../utils/localStorage';
 
+
 const SearchQuestions = () => {
   const [searchedQuestions, setSearchedQuestions] = useState([]);
   const [searchInput, setSearchInput] = useState('');

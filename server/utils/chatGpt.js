@@ -1,8 +1,9 @@
 const fetch = require('node-fetch');
-require('dotenv').config();
+require('dotenv').config({path: '../.env'})
 
 // You will need your API key from OpenAI
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = process.env.CHATKEY;
+console.log(process.env.CHATKEY)
 
 const askGPT = async (prompt) => {
   try {
