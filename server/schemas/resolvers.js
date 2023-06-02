@@ -80,23 +80,28 @@ const resolvers = {
     },
 
     removeQuestion: async (parent, { questionId }, context) => {
-      if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in!');
+      }
+   
+      try {
+        const user = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedQuestions: { questionId } } },
+          { $pull: { savedQuestions: { _id: questionId } } },
           { new: true }
         );
-
-        if (!updatedUser) {
-          throw new AuthenticationError("Couldn't find user with this id!");
+   
+        if (!user) {
+          throw new Error("Couldn't find user with this id!");
         }
-
-        return updatedUser;
+   
+        return user;
+      } catch (err) {
+        console.error('Error in removeQuestion resolver: ', err);
+        throw new Error('Failed to remove the question.');
       }
-
-      throw new AuthenticationError('You need to be logged in!');
     },
-  },
+  }, // <-- Add closing brace here
 };
 
 module.exports = resolvers;
