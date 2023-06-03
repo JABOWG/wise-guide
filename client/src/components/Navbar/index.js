@@ -37,19 +37,31 @@ const AppNavbar = () => {
             aria-label="menu"
             aria-expanded="false"
             data-target="navbarBasicExample"
+            style={{ marginTop: "20px" }}
             onClick={() => {
               setIsActive(!isActive);
             }}
           >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+            <span
+              aria-hidden="true"
+              style={{ height: "3px", width: "24px" }}
+            ></span>
+            <span
+              aria-hidden="true"
+              style={{ height: "3px", width: "24px" }}
+            ></span>
+            <span
+              aria-hidden="true"
+              style={{ height: "3px", width: "24px" }}
+            ></span>
           </nav>
         </div>
 
         <div
           id="navbarBasicExample"
-          className={`navbar-menu ${isActive ? "is-active" : ""}`}
+          className={`navbar-menu custom-background ${
+            isActive ? "is-active" : ""
+          }`}
         >
           <div className="navbar-end">
             <div className="navbar-item">
@@ -95,7 +107,7 @@ const AppNavbar = () => {
             </header>
             <section className="modal-card-body">
               <h3 class="notification is-warning">
-                Login to Save your Questions!!
+                Login to Save your Questions / Create a New Account
               </h3>
               <LoginForm handleModalClose={() => setShowModal(false)} />
               {/* <br />
