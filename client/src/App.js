@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import SearchQuestions from "./pages/SearchQuestion";
 import SavedQuestion from "./pages/SavedQuestion";
+import LandingPage from "./pages/LandingPage";
 import Navbar from "./components/Navbar";
 
 import "./App.css";
@@ -35,7 +36,8 @@ function App() {
               }}
             >
               <Switch>
-                <Route exact path="/" component={SearchQuestions} />
+                <Route exact path="/" component={LandingPage} />
+                <Route exact path="/search" component={SearchQuestions} />
                 <Route exact path="/saved" component={SavedQuestion} />
                 <Route
                   render={() => <h1 className="display-2">Wrong page!</h1>}
