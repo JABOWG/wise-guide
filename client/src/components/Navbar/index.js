@@ -54,7 +54,7 @@ const AppNavbar = () => {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                <Link className="button is-link" to="/">
+                <Link className="button is-link" to="/search">
                   Ask a question about your homework!
                 </Link>
 
