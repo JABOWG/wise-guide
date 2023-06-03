@@ -44,8 +44,8 @@ function App() {
                 />
               </Switch>
             </div>
-            <footer className="footer">
-              <div className="content has-text-centered">
+            <footer className="thefooter">
+              <div className="content">
                 <p> Wise Guide: Your Personal Tutor | Version# 1.1.0/2023</p>
               </div>
             </footer>

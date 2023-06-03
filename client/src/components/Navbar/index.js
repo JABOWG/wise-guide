@@ -31,7 +31,7 @@ const AppNavbar = () => {
             Wise Guide!👼
           </Link>
 
-          <a
+          <nav
             role="button"
             className={`navbar-burger burger ${isActive ? "is-active" : ""}`}
             aria-label="menu"
@@ -44,7 +44,7 @@ const AppNavbar = () => {
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
-          </a>
+          </nav>
         </div>
 
         <div
