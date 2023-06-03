@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import SignUpForm from "../SignupForm";
+//import SignUpForm from "../SignupForm";
 import LoginForm from "../LoginForm";
 
 import Auth from "../../utils/auth";
@@ -98,9 +98,9 @@ const AppNavbar = () => {
                 Login to Save your Questions!!
               </h3>
               <LoginForm handleModalClose={() => setShowModal(false)} />
-              <br />
+              {/* <br />
               <h3 class="notification is-warning">Create your Account:</h3>
-              <SignUpForm handleModalClose={() => setShowModal(false)} />
+              <SignUpForm handleModalClose={() => setShowModal(false)} /> */}
             </section>
             <footer className="modal-card-foot">
               <button className="button" onClick={() => setShowModal(false)}>
