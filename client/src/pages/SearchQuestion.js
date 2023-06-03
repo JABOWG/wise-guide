@@ -104,7 +104,7 @@ const SearchQuestions = () => {
       {loading ? (
         <div className="section">
           <div className="container has-text-centered">
-            <img
+            <img className="gif-size"
               src="https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif"
               alt="Loading..."
             />

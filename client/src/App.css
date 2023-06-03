@@ -23,3 +23,7 @@ body {
 .footer {
   flex-shrink: 0;
 }
+
+.gif-size {
+  height: 500px;
+}
