@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useLazyQuery } from "@apollo/client";
-
 import { SAVE_QUESTION } from "../utils/mutations";
 import { SEARCH_QUESTIONS } from "../utils/queries";
 import Auth from "../utils/auth";
@@ -11,17 +10,15 @@ import "bulma/css/bulma.css";
 const SearchQuestions = () => {
   const [searchedQuestions, setSearchedQuestions] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [savedQuestionIds, setSavedQuestionIds] = useState(
-    getSavedQuestionIds()
-  );
+  const [savedQuestionIds, setSavedQuestionIds] = useState(getSavedQuestionIds());
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     return () => saveQuestionIds(savedQuestionIds);
   }, [savedQuestionIds]);
 
   const [saveQuestion] = useMutation(SAVE_QUESTION);
-  const [searchQuestions, { loading, data: searchQuestionData }] =
-    useLazyQuery(SEARCH_QUESTIONS);
+  const [searchQuestions, { loading, data: searchQuestionData }] = useLazyQuery(SEARCH_QUESTIONS);
 
   useEffect(() => {
     if (searchQuestionData) {
@@ -64,14 +61,22 @@ const SearchQuestions = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    searchQuestions({ variables: { query: searchInput } }); // Pass `query` variable
+    if (Auth.loggedIn()) {
+      searchQuestions({ variables: { query: searchInput } });
+    } else {
+      setShowModal(true);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
     <>
       <section className="section">
         <div className="container">
-          <h1 className="title">Search for Questions!</h1>
+          <h1 className="title">Search for Answers to Your Homework Questions!</h1>
           <form className="field has-addons" onSubmit={handleSearch}>
             <div className="control is-expanded">
               <input
@@ -111,7 +116,7 @@ const SearchQuestions = () => {
             <h2 className="title">
               {searchedQuestions.length
                 ? `Viewing ${searchedQuestions.length} results:`
-                : "🏋️‍♂️Search for a question to begin🏋️‍♂️"}
+                : "🏋️‍♂️Ask a Question to begin🏋️‍♂️"}
             </h2>
             {searchedQuestions.map((question) => (
               <div className="box" key={question.questionId}>
@@ -141,6 +146,23 @@ const SearchQuestions = () => {
             ))}
           </div>
         </section>
+      )}
+
+      {showModal && (
+        <div className="modal is-active">
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <div className="box">
+              <p className="has-text-weight-bold">
+                Only signed-in users can perform searches.
+              </p>
+              <button className="button is-danger is-centered" onClick={closeModal}>
+                Dismiss
+              </button>
+            </div>
+          </div>
+          <button className="modal-close is-large" aria-label="close" onClick={closeModal}></button>
+        </div>
       )}
     </>
   );
