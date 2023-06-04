@@ -8,11 +8,6 @@ export const GET_ME = gql`
       username
       sessions {
         _id
-        messages {
-          _id
-          aiResponse
-          userQuestion
-        }
       }
     }
   }

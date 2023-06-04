@@ -14,43 +14,12 @@ const resolvers = {
       if (!context.user)
         throw new AuthenticationError("You need to be logged in!");
 
-      // Fetch the current user and populate their sessions and messages
+      // Fetch the current user and populate their sessions
       const currentUser = await User.findOne({
         _id: context.user._id,
-      }).populate({
-        path: "sessions",
-        populate: { path: "messages" },
       });
 
       return currentUser;
-    },
-
-    // Resolver for fetching all users
-    getAllUsers: async () => {
-      try {
-        // Fetch all users and populate their sessions and messages
-        const users = await User.find().populate({
-          path: "sessions",
-          populate: { path: "messages" },
-        });
-        return users;
-      } catch (error) {
-        throw new Error("Failed to fetch users");
-      }
-    },
-
-    // Resolver for fetching a user by ID
-    getUser: async (parent, { userId }) => {
-      try {
-        // Fetch the user by ID and populate their sessions and messages
-        const user = await User.findById(userId).populate({
-          path: "sessions",
-          populate: { path: "messages" },
-        });
-        return user;
-      } catch (error) {
-        throw new Error("Failed to fetch user");
-      }
     },
 
     // Resolver for fetching a user's recent sessions
@@ -131,16 +100,43 @@ const resolvers = {
         throw new Error("Failed to fetch session");
       }
     },
+
+    // ---------- FOR DEVELOPER USE ----------
+
+    // Resolver for fetching all users
+    getAllUsers: async () => {
+      try {
+        // Fetch all users and populate their sessions and messages
+        const users = await User.find().populate({
+          path: "sessions",
+          populate: { path: "messages" },
+        });
+        return users;
+      } catch (error) {
+        throw new Error("Failed to fetch users");
+      }
+    },
+
+    // Resolver for fetching a user by ID
+    getUser: async (parent, { userId }) => {
+      try {
+        // Fetch the user by ID and populate their sessions and messages
+        const user = await User.findById(userId).populate({
+          path: "sessions",
+          populate: { path: "messages" },
+        });
+        return user;
+      } catch (error) {
+        throw new Error("Failed to fetch user");
+      }
+    },
   },
 
   Mutation: {
     // Resolver for user login
     login: async (parent, { email, password }) => {
       // Find the user by email and populate their sessions and messages
-      const user = await User.findOne({ email }).populate({
-        path: "sessions",
-        populate: { path: "messages" },
-      });
+      const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError("Incorrect credentials");
       }
