@@ -1,10 +1,10 @@
-const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const path = require('path');
-const { authMiddleware } = require('./utils/auth'); 
-const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
-require('dotenv').config()
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
+const path = require("path");
+const { authMiddleware } = require("./utils/auth");
+const { typeDefs, resolvers } = require("./schemas");
+const db = require("./config/connection");
+require("dotenv").config();
 
 // Set up Apollo Server
 const app = express();
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 }
 // Direct all other traffic to the index.html file in the client/build directory
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 const startApolloServer = async () => {
