@@ -120,7 +120,7 @@ SO THAT I can consistently learn about new subjects
 
 Repository
 
-> [https://github.com/yourgithubusername/wise-guide](https://github.com/yourgithubusername/wise-guide)
+> [https://github.com/JABOWG/wise-guide/tree/main](https://github.com/JABOWG/wise-guide/tree/main)
 
 ---
 
