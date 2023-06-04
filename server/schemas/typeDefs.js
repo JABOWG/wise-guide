@@ -30,15 +30,16 @@ const typeDefs = gql`
     me: User
     getAllUsers: [User!]!
     getUser(userId: ID!): User
-    getAllSessions: [Session!]!
-    getSession(sessionId: ID!): Session
+    recentSessions(limit: Int!): [Session!]!
+    allSessions: [Session!]!
+    session(sessionId: ID!): Session
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    createUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
     removeUser: User
-    createSession(userId: ID!): Session
+    createSession: Session
     removeSession(sessionId: ID!): Session
     createMessage(sessionId: ID!, userQuestion: String!): Message
   }

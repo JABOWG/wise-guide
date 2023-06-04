@@ -53,18 +53,46 @@ const resolvers = {
       }
     },
 
-    // Resolver for fetching all of a user's sessions
-    getAllSessions: async (parent, args, context) => {
+    // Resolver for fetching a user's recent sessions
+    recentSessions: async (parent, { limit }, context) => {
       try {
         // Check if the user is authenticated
         if (!context.user) {
           throw new AuthenticationError("You need to be logged in!");
         }
 
-        // Fetch the authenticated user and populate their sessions and messages
+        // Fetch the authenticated user and populate their sessions with only the first message
         const user = await User.findById(context.user._id).populate({
           path: "sessions",
-          populate: { path: "messages" },
+          options: { sort: { updatedAt: -1 }, limit }, // Sort by updatedAt field in descending order and apply the limit
+          populate: {
+            path: "messages",
+            perDocumentLimit: 1, // Limit to only the first message
+          },
+        });
+
+        return user.sessions;
+      } catch (error) {
+        throw new Error("Failed to fetch sessions");
+      }
+    },
+
+    // Resolver for fetching all of a user's sessions
+    allSessions: async (parent, args, context) => {
+      try {
+        // Check if the user is authenticated
+        if (!context.user) {
+          throw new AuthenticationError("You need to be logged in!");
+        }
+
+        // Fetch the authenticated user and populate their sessions with only the first message
+        const user = await User.findById(context.user._id).populate({
+          path: "sessions",
+          options: { sort: { updatedAt: -1 } }, // Sort by updatedAt field in descending order
+          populate: {
+            path: "messages",
+            perDocumentLimit: 1, // Limit to only the first message
+          },
         });
 
         return user.sessions;
@@ -74,7 +102,7 @@ const resolvers = {
     },
 
     // Resolver for fetching a user's session by the sessions ID
-    getSession: async (parent, { sessionId }, context) => {
+    session: async (parent, { sessionId }, context) => {
       try {
         // Check if the user is authenticated
         if (!context.user) {
@@ -129,13 +157,14 @@ const resolvers = {
     },
 
     // Resolver for creating a new user
-    createUser: async (parent, { username, email, password }) => {
+    addUser: async (parent, { username, email, password }) => {
       try {
         // Create a new user and generate a token for authentication
         const user = await User.create({ username, email, password });
         const token = signToken(user);
         return { token, user };
       } catch (error) {
+        console.log(error);
         throw new Error("Failed to create user");
       }
     },
@@ -174,7 +203,7 @@ const resolvers = {
     },
 
     // Resolver for creating a new session
-    createSession: async (parent, { userId }, context) => {
+    createSession: async (parent, args, context) => {
       try {
         // Check if the user is authenticated
         if (!context.user) {
@@ -182,7 +211,9 @@ const resolvers = {
         }
 
         // Find the user by ID
-        const user = await User.findById(userId);
+        const user = await User.findOne({
+          _id: context.user._id,
+        });
         if (!user) {
           throw new Error("User not found");
         }
