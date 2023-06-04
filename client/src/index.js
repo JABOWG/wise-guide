@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bulma/css/bulma.min.css";
 import App from "./App";
 
 // The ReactDOM.render() function takes two arguments: the HTML code to render and the DOM element to render it to.
