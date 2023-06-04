@@ -71,7 +71,10 @@ const SavedQuestion = () => {
               </button>
               {selectedQuestionId === question._id && (
                 <div className="content">
-                  <p>{question.answer}</p>
+                  {/* Split the answer into paragraphs */}
+                  {question.answer.split("\n\n").map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
                   <button
                     className="button is-danger"
                     onClick={() => handleDeleteQuestion(question._id)}

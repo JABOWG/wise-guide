@@ -14,7 +14,7 @@ const askGPT = async (prompt) => {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        max_tokens: 200,
+        max_tokens: 250,
         model: 'gpt-3.5-turbo',
         messages: [
           {

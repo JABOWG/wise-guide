@@ -119,31 +119,36 @@ const SearchQuestions = () => {
                 : "🏋️‍♂️Ask a Question to begin🏋️‍♂️"}
             </h2>
             {searchedQuestions.map((question) => (
-              <div className="box" key={question.questionId}>
-                <h3 className="title">{question.title}</h3>
-                <p className="subtitle">{question.answer}</p>
-                <button
-                  className={`button is-primary ${
-                    savedQuestionIds?.some(
-                      (savedQuestionId) =>
-                        savedQuestionId === question.questionId
-                    )
-                      ? "is-disabled"
-                      : ""
-                  }`}
-                  disabled={savedQuestionIds?.some(
-                    (savedQuestionId) => savedQuestionId === question.questionId
-                  )}
-                  onClick={() => handleSaveQuestion(question)}
-                >
-                  {savedQuestionIds?.some(
-                    (savedQuestionId) => savedQuestionId === question.questionId
-                  )
-                    ? "This question has already been saved!"
-                    : "Save this Question!"}
-                </button>
-              </div>
-            ))}
+  <div className="box" key={question.title}>
+    <h3 className="title">{question.title}</h3>
+    <div className="content">
+      {/* Split the response into paragraphs */}
+      {question.answer.split("\n\n").map((paragraph, index) => (
+        <p key={index}>{paragraph}</p>
+      ))}
+    </div>
+    <button
+      className={`button is-primary ${
+        savedQuestionIds?.some(
+          (savedQuestionId) => savedQuestionId === question.questionId
+        )
+          ? "is-disabled"
+          : ""
+      }`}
+      disabled={savedQuestionIds?.some(
+        (savedQuestionId) => savedQuestionId === question.questionId
+      )}
+      onClick={() => handleSaveQuestion(question)}
+    >
+      {savedQuestionIds?.some(
+        (savedQuestionId) => savedQuestionId === question.questionId
+      )
+        ? "This question has already been saved!"
+        : "Save this Answer!"}
+    </button>
+  </div>
+))}
+
           </div>
         </section>
       )}
