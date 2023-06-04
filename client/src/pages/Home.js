@@ -10,10 +10,10 @@ import AuthService from "../utils/auth";
 
 const Home = () => {
   const navigate = useNavigate();
-  const limit = 3; // number of recent sessions we want to display on home page
+  const limit = 5; // number of recent sessions we want to display on home page
 
   // useQuery hook to fetch all sessions
-  const { loading, data } = useQuery(GET_RECENT_SESSIONS, {
+  const { loading, data, refetch } = useQuery(GET_RECENT_SESSIONS, {
     variables: { limit: limit },
   });
   const sessions = data?.recentSessions || [];
@@ -32,6 +32,9 @@ const Home = () => {
       // redirect the user to the new session's page
       const sessionId = data.createSession._id;
       navigate(`/session/${sessionId}`);
+
+      // Refetch the recent sessions after the creation of a new session
+      refetch();
     } catch (err) {
       console.error(err);
     }

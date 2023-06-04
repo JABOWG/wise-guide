@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useQuery } from "@apollo/client";
@@ -8,8 +8,18 @@ import AuthService from "../utils/auth";
 
 const Sessions = () => {
   const navigate = useNavigate();
-  const { loading, data } = useQuery(GET_ALL_SESSIONS);
+  const { loading, data, refetch } = useQuery(GET_ALL_SESSIONS);
   const sessions = data?.allSessions || [];
+
+  // Function to refetch the sessions data when a new session is created
+  const handleRefetch = async () => {
+    await refetch();
+  };
+
+  // Call the handleRefetch function whenever the sessions array changes
+  useEffect(() => {
+    handleRefetch();
+  }, [sessions]);
 
   // Check if the user is logged in
   if (!AuthService.loggedIn()) {
