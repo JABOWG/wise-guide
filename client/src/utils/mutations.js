@@ -13,9 +13,9 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const CREATE_USER = gql`
-  mutation createUser($username: String!, $email: String!, $password: String!) {
-    createUser(username: $username, email: $email, password: $password) {
+export const ADD_USER = gql`
+  mutation addUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password) {
       token
       user {
         email
@@ -40,8 +40,8 @@ export const REMOVE_USER = gql`
 `;
 
 export const CREATE_SESSION = gql`
-  mutation createSession($userId: ID!) {
-    createSession(userId: $userId) {
+  mutation createSession {
+    createSession {
       _id
       messages {
         _id
