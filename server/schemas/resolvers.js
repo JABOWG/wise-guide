@@ -14,7 +14,7 @@ const resolvers = {
       if (!context.user)
         throw new AuthenticationError("You need to be logged in!");
 
-      // Fetch the current user and populate their sessions
+      // Fetch the current user
       const currentUser = await User.findOne({
         _id: context.user._id,
       });
@@ -22,7 +22,9 @@ const resolvers = {
       return currentUser;
     },
 
-    // Resolver for fetching a user's recent sessions
+    // Resolver for fetching a limited number of a user's recent sessions.
+    // Extracts the first message of each session to be used as the session title.
+    // Populating all the messages for each session is avoided to improve performance.
     recentSessions: async (parent, { limit }, context) => {
       try {
         // Check if the user is authenticated
@@ -30,23 +32,32 @@ const resolvers = {
           throw new AuthenticationError("You need to be logged in!");
         }
 
-        // Fetch the authenticated user and populate their sessions with only the first message
-        const user = await User.findById(context.user._id).populate({
-          path: "sessions",
-          options: { sort: { updatedAt: -1 }, limit }, // Sort by updatedAt field in descending order and apply the limit
-          populate: {
-            path: "messages",
-            perDocumentLimit: 1, // Limit to only the first message
-          },
-        });
+        // Fetch the authenticated user and their limited sessions
+        const user = await User.findById(context.user._id)
+          .select("sessions")
+          .limit(limit);
 
-        return user.sessions;
+        // Retrieve the limited sessions' IDs
+        const sessionIds = user.sessions;
+
+        // Fetch the limited sessions using the session IDs
+        const sessions = await Session.find({ _id: { $in: sessionIds } });
+
+        // Extract the first message from each session
+        const sessionsWithFirstMessage = sessions.map((session) => ({
+          _id: session._id,
+          messages: session.messages.length > 0 ? [session.messages[0]] : [],
+        }));
+
+        return sessionsWithFirstMessage;
       } catch (error) {
         throw new Error("Failed to fetch sessions");
       }
     },
 
     // Resolver for fetching all of a user's sessions
+    // Extracts the first message of each session to be used as the session title.
+    // Populating all the messages for each session is avoided to improve performance.
     allSessions: async (parent, args, context) => {
       try {
         // Check if the user is authenticated
@@ -54,17 +65,22 @@ const resolvers = {
           throw new AuthenticationError("You need to be logged in!");
         }
 
-        // Fetch the authenticated user and populate their sessions with only the first message
-        const user = await User.findById(context.user._id).populate({
-          path: "sessions",
-          options: { sort: { updatedAt: -1 } }, // Sort by updatedAt field in descending order
-          populate: {
-            path: "messages",
-            perDocumentLimit: 1, // Limit to only the first message
-          },
-        });
+        // Fetch the authenticated user and their sessions
+        const user = await User.findById(context.user._id).select("sessions");
 
-        return user.sessions;
+        // Retrieve the sessions' IDs
+        const sessionIds = user.sessions;
+
+        // Fetch the sessions using the session IDs
+        const sessions = await Session.find({ _id: { $in: sessionIds } });
+
+        // Extract the first message from each session
+        const sessionsWithFirstMessage = sessions.map((session) => ({
+          _id: session._id,
+          messages: session.messages.length > 0 ? [session.messages[0]] : [],
+        }));
+
+        return sessionsWithFirstMessage;
       } catch (error) {
         throw new Error("Failed to fetch sessions");
       }
@@ -87,10 +103,8 @@ const resolvers = {
           throw new Error("User with Session not found");
         }
 
-        // Fetch the session by ID and populate its messages
-        const session = await Session.findById(sessionId).populate({
-          path: "messages",
-        });
+        // Fetch the session by ID
+        const session = await Session.findById(sessionId);
         if (!session) {
           throw new Error("Session not found");
         }
@@ -106,11 +120,8 @@ const resolvers = {
     // Resolver for fetching all users
     getAllUsers: async () => {
       try {
-        // Fetch all users and populate their sessions and messages
-        const users = await User.find().populate({
-          path: "sessions",
-          populate: { path: "messages" },
-        });
+        // Fetch all users and populate their sessions
+        const users = await User.find().populate("sessions");
         return users;
       } catch (error) {
         throw new Error("Failed to fetch users");
@@ -120,11 +131,8 @@ const resolvers = {
     // Resolver for fetching a user by ID
     getUser: async (parent, { userId }) => {
       try {
-        // Fetch the user by ID and populate their sessions and messages
-        const user = await User.findById(userId).populate({
-          path: "sessions",
-          populate: { path: "messages" },
-        });
+        // Fetch the user by ID and populate their sessions
+        const user = await User.findById(userId).populate("sessions");
         return user;
       } catch (error) {
         throw new Error("Failed to fetch user");
@@ -135,7 +143,7 @@ const resolvers = {
   Mutation: {
     // Resolver for user login
     login: async (parent, { email, password }) => {
-      // Find the user by email and populate their sessions and messages
+      // Find the user by email
       const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError("Incorrect credentials");
