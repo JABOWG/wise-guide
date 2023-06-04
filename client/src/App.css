@@ -39,3 +39,9 @@ body {
 .gif-size {
   height: 500px;
 }
+
+@media (max-width: 1023px) {
+  .navbar-menu.custom-background {
+    background-color: rgb(214, 196, 214) !important;
+  }
+}
