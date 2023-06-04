@@ -42,9 +42,6 @@ const Profile = () => {
                 </p>
               </div>
             </div>
-
-            <h2 className="title">My Sessions</h2>
-            <SessionList sessions={me.sessions} />
           </div>
         </div>
       </div>

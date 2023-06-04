@@ -56,11 +56,6 @@ export const REMOVE_SESSION = gql`
   mutation removeSession($sessionId: ID!) {
     removeSession(sessionId: $sessionId) {
       _id
-      messages {
-        _id
-        aiResponse
-        userQuestion
-      }
     }
   }
 `;
