@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 import { REMOVE_QUESTION } from "../utils/mutations";
-import Quiz from '../components/Quiz';
-
+import Quiz from "../components/Quiz";
 
 import Auth from "../utils/auth";
 import { removeQuestionByTitle } from "../utils/localStorage";
@@ -42,6 +41,7 @@ const SavedQuestion = () => {
       removeQuestionByTitle(questionId);
       // After deleting, clear the selection
       setSelectedQuestionId(null);
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -94,8 +94,8 @@ const SavedQuestion = () => {
           Reset
         </button>
         <div>
-          <Quiz/>
-          </div>
+          <Quiz />
+        </div>
       </div>
     </section>
   );
