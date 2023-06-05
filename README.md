@@ -69,6 +69,7 @@ SO THAT I can consistently learn about new subjects
 - [MongoDB](https://www.mongodb.com/)
 - [Express.js](https://expressjs.com/)
 - [JWT](https://jwt.io/)
+- [Bulma](https://bulma.io/documentation/)
 - [Heroku](https://www.heroku.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
