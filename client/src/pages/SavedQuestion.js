@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 import { REMOVE_QUESTION } from "../utils/mutations";
+import Quiz from '../components/Quiz';
+
 
 import Auth from "../utils/auth";
 import { removeQuestionByTitle } from "../utils/localStorage";
@@ -91,6 +93,9 @@ const SavedQuestion = () => {
         <button className="button is-info" onClick={handleReset}>
           Reset
         </button>
+        <div>
+          <Quiz/>
+          </div>
       </div>
     </section>
   );
