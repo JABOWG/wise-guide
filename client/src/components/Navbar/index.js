@@ -24,10 +24,6 @@ const Navbar = () => {
               <Link to="/me" className="navbar-item">
                 My Profile
               </Link>
-              {/* Link to the user login/signup form */}
-              <Link to="/userform" className="navbar-item">
-                Signup/Login
-              </Link>
               {/* Logout button */}
               <button
                 className="btn btn-lg btn-light m-2"

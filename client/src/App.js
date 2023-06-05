@@ -15,6 +15,8 @@ import Profile from "./pages/Profile";
 import SingleSession from "./pages/SingleSession";
 import Sessions from "./pages/Sessions";
 
+import "./assets/css/App.css"
+
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: "/graphql",

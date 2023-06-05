@@ -3,13 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 
 import { GET_SESSION } from "../utils/queries";
-import { CREATE_MESSAGE } from "../utils/mutations";
+import { CREATE_MESSAGE, REMOVE_SESSION } from "../utils/mutations";
 
 import "../assets/css/SingleSession.css";
 import AuthService from "../utils/auth";
 
 const SingleSession = () => {
   const { sessionId } = useParams();
+  const navigate = useNavigate();
+
+  // Gets all the sessions for the user
   const { loading: querySessionLoading, data: querySessionData } = useQuery(
     GET_SESSION,
     {
@@ -17,16 +20,15 @@ const SingleSession = () => {
     }
   );
 
-  const navigate = useNavigate();
+  // mutation to create a message
+  const [createMessage, { loading: messageLoading, error: messageError }] =
+    useMutation(CREATE_MESSAGE);
+  // mutation to delete a session
 
-  const [isLoadingMessage, setIsLoadingMessage] = useState(false);
   const [messageState, setMessageState] = useState("");
   const [sessionData, setSessionData] = useState(
     querySessionData?.session || {}
   );
-
-  const [createMessage, { loading: messageLoading, error: messageError }] =
-    useMutation(CREATE_MESSAGE);
 
   useEffect(() => {
     if (querySessionData?.session) {
@@ -52,8 +54,6 @@ const SingleSession = () => {
 
     try {
       setMessageState(""); // Clear the input field
-      setIsLoadingMessage(true);
-
       // creates the message document
       const { data } = await createMessage({
         variables: { userQuestion: messageState, sessionId },
@@ -66,20 +66,31 @@ const SingleSession = () => {
       });
     } catch (err) {
       console.error(err);
-    } finally {
-      setIsLoadingMessage(false);
     }
   };
 
   // Dynamically resize the textarea based on the amount of text entered by the user. It ensures that the
-  // textarea expands vertically to accommodate the content within a maximum of 4 lines
-  function handleTextareaResize(event) {
+  // textarea expands vertically to accommodate the content within a maximum of 4 lines. We also update the
+  // message state with the new data entered in the field
+  function handleTextareaChange(event) {
     const textarea = event.target;
     textarea.style.height = "auto"; // Reset the height of the textarea to its default value
     textarea.style.height = `${Math.min(
       textarea.scrollHeight,
       4 * parseFloat(getComputedStyle(textarea).lineHeight)
     )}px`; // Set the height of the textarea based on its content
+
+    setMessageState(textarea.value); // Update the message state with the new textarea value
+  }
+
+  // Checks if the user pressed on the "Enter" key with or without the shift key.
+  // If the user hit shift+key then create a new line, other-wise prevent the default (new line).
+  // This will allow the "enter" key to submit the form instead
+  function handleTextareaKeyDown(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault(); // Prevent new-line when Enter key is pressed
+      handleMessageSubmit(event); // Submit the form
+    }
   }
 
   // Renders chat bubbles based on the session data
@@ -109,7 +120,7 @@ const SingleSession = () => {
             )}
 
             {/* Render a loading message if the message is currently being sent */}
-            {isLoadingMessage && index === sessionData.messages.length - 1 && (
+            {messageLoading && index === sessionData.messages.length - 1 && (
               <div className="message is-warning">
                 <div className="message-body">
                   Working on getting your answer, this may take a moment...
@@ -133,8 +144,8 @@ const SingleSession = () => {
 
   return (
     <div className="container">
-      <div className="section">
-        <div className="columns ">
+      <div className="section mb-6">
+        <div className="columns">
           <div className="column">{renderChatBubbles()}</div>
         </div>
       </div>
@@ -149,8 +160,8 @@ const SingleSession = () => {
                 placeholder="Enter your question here..."
                 rows="1"
                 value={messageState}
-                onChange={(event) => setMessageState(event.target.value)}
-                onKeyDown={(event) => handleTextareaResize(event)}
+                onChange={handleTextareaChange}
+                onKeyDown={handleTextareaKeyDown}
               />
             </div>
             <div className="control">
