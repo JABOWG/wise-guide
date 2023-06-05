@@ -35,6 +35,7 @@ const resolvers = {
         // Fetch the authenticated user and their limited sessions
         const user = await User.findById(context.user._id)
           .select("sessions")
+          .sort({ updatedAt: -1 })
           .limit(limit);
 
         // Retrieve the limited sessions' IDs
@@ -43,10 +44,14 @@ const resolvers = {
         // Fetch the limited sessions using the session IDs
         const sessions = await Session.find({ _id: { $in: sessionIds } });
 
+        // Sort the sessions by the updatedAt field in descending order
+        sessions.sort((a, b) => b.updatedAt - a.updatedAt);
+
         // Extract the first message from each session
         const sessionsWithFirstMessage = sessions.map((session) => ({
           _id: session._id,
           messages: session.messages.length > 0 ? [session.messages[0]] : [],
+          updatedAt: session.updatedAt.toISOString(),
         }));
 
         return sessionsWithFirstMessage;
@@ -66,7 +71,9 @@ const resolvers = {
         }
 
         // Fetch the authenticated user and their sessions
-        const user = await User.findById(context.user._id).select("sessions");
+        const user = await User.findById(context.user._id)
+          .select("sessions")
+          .sort({ updatedAt: -1 });
 
         // Retrieve the sessions' IDs
         const sessionIds = user.sessions;
@@ -74,10 +81,14 @@ const resolvers = {
         // Fetch the sessions using the session IDs
         const sessions = await Session.find({ _id: { $in: sessionIds } });
 
+        // Sort the sessions by the updatedAt field in descending order
+        sessions.sort((a, b) => b.updatedAt - a.updatedAt);
+
         // Extract the first message from each session
         const sessionsWithFirstMessage = sessions.map((session) => ({
           _id: session._id,
           messages: session.messages.length > 0 ? [session.messages[0]] : [],
+          updatedAt: session.updatedAt.toISOString(),
         }));
 
         return sessionsWithFirstMessage;

@@ -13,6 +13,7 @@ const typeDefs = gql`
   type Session {
     _id: ID!
     messages: [Message!]!
+    updatedAt: String!
   }
 
   type Message {
