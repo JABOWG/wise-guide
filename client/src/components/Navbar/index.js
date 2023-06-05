@@ -75,6 +75,13 @@ const AppNavbar = () => {
                     <Link className="button is-success" to="/saved">
                       See Your Questions
                     </Link>
+                    <a
+                      className="button is-info"
+                      href={process.env.REACT_APP_STRIPE_CHECKOUT_URL}
+                    >
+                      Buy Me a Coffee
+                    </a>
+
                     <button className="button is-danger" onClick={Auth.logout}>
                       Logout
                     </button>
