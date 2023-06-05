@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useMutation, useLazyQuery, useQuery } from "@apollo/client";
 import { SAVE_QUESTION } from "../utils/mutations";
-import { SEARCH_QUESTIONS } from "../utils/queries";
+import { SEARCH_QUESTIONS, GET_ME } from "../utils/queries";
 import Auth from "../utils/auth";
 import { saveQuestionIds, getSavedQuestionIds } from "../utils/localStorage";
 
@@ -19,6 +19,7 @@ const SearchQuestions = () => {
 
   const [saveQuestion] = useMutation(SAVE_QUESTION);
   const [searchQuestions, { loading, data: searchQuestionData }] = useLazyQuery(SEARCH_QUESTIONS);
+  const { data: userData } = useQuery(GET_ME);
 
   useEffect(() => {
     if (searchQuestionData) {
@@ -31,33 +32,49 @@ const SearchQuestions = () => {
   const handleSaveQuestion = async (questionData) => {
     const { answer } = questionData;
     const title = searchInput; // set title as user's query
-
+  
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
+  
     console.log("token before send:", token);
-
+  
     if (!token) {
       return false;
     }
+  
+    const questionId = questionData.questionId;
+  
+    if (savedQuestionIds.includes(questionId)) {
+      console.log("Question already saved!");
+      return;
+    }
 
+    const existingQuestion = userData.me.savedQuestions.find(savedQuestion => savedQuestion.title === title);
+    if (existingQuestion) {
+      console.log("Question with the same title already saved!");
+      return;
+    }
+  
     try {
       await saveQuestion({
         variables: {
           questionData: { answer, title }, // title now is the user's query
         },
-        update: (cache) => {
-          cache.writeQuery({
-            query: SEARCH_QUESTIONS,
-            data: { searchQuestion: searchedQuestions },
-          });
+        update: (cache, { data }) => {
+          const savedQuestion = data.saveQuestion;
+          if (savedQuestion) {
+            const updatedSavedQuestionIds = [...savedQuestionIds, savedQuestion.questionId];
+            setSavedQuestionIds(updatedSavedQuestionIds);
+            saveQuestionIds(updatedSavedQuestionIds);
+          }
         },
       });
-
-      setSavedQuestionIds([...savedQuestionIds, questionData._id]);
+  
+      setSavedQuestionIds([...savedQuestionIds, questionId]);
     } catch (err) {
       console.error(err);
     }
   };
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
