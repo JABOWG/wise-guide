@@ -12,11 +12,33 @@ import "./App.css";
 // The ApolloProvider component wraps the entire application and allows us to share data between all of the components that we will create
 const client = new ApolloClient({
   uri: "/graphql",
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      User: {
+        fields: {
+          savedQuestions: {
+            merge(existing = [], incoming) {
+              const merged = [...existing];
+              const existingRefs = new Set(existing.map(q => q.__ref));
+
+              for (const question of incoming) {
+                if (!existingRefs.has(question.__ref)) {
+                  merged.push(question);
+                }
+              }
+
+              return merged;
+            },
+          },
+        },
+      },
+    },
+  }),
   headers: {
     Authorization: `Bearer ${localStorage.getItem("id_token")}`,
   },
 });
+
 
 // Here we creating the set of routes for the application
 function App() {
