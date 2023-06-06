@@ -27,8 +27,22 @@ const AppNavbar = () => {
         }}
       >
         <div className="navbar-brand">
-          <Link className="navbar-item title is-1" to="/">
-            Wise Guide!👼
+          <Link
+            className=""
+            to="/"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <h1 className="title is-1">Wise Guide!</h1>
+            <img
+              src={`${process.env.PUBLIC_URL}/favicon32.png`}
+              alt="Logo"
+              style={{
+                marginLeft: "8px",
+                marginBottom: "8px",
+                width: "50px",
+                height: "50px",
+              }}
+            />
           </Link>
 
           <nav
