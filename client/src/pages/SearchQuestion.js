@@ -80,6 +80,7 @@ const SearchQuestions = () => {
     e.preventDefault();
     if (Auth.loggedIn()) {
       searchQuestions({ variables: { query: searchInput } });
+      setSavedQuestionIds([]);  // Reset the saved question ids here
     } else {
       setShowModal(true);
     }
