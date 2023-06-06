@@ -8,11 +8,4 @@
 
 .container {
   padding-top: 5vh; /* Adjust the value based on your navbar's height */
-  height: 100vh;
-}
-body {
-  background-image: url("/Main-background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
