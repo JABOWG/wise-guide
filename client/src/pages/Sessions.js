@@ -37,7 +37,8 @@ const Sessions = () => {
   // Render the list of sessions
   return (
     <>
-      <h1 className="is-size-1 has-text-black has-text-weight-bold mb-5">
+      <br></br>
+      <h1 className="is-size-1 has-text-black has-text-weight-bold mb-5 is-outlined">
         Here is a list of all your sessions
       </h1>
       {loading ? (

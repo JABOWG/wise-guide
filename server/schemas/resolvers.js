@@ -179,8 +179,15 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
       } catch (error) {
-        console.log(error);
-        throw new Error("Failed to create user");
+        //console.log(error);
+        if(error.name === 'ValidationError') {
+          const errorMessages = Object.values(error.errors).map((err) => err.message);
+          //console.log(errorMessages)
+
+          throw new Error(errorMessages.join(""));
+        } else {
+          throw new Error("Failed to create user");
+        }
       }
     },
 
