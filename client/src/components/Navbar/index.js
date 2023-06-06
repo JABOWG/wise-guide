@@ -81,7 +81,7 @@ const AppNavbar = () => {
             <div className="navbar-item">
               <div className="buttons">
                 <Link className="button is-link" to="/search">
-                  Ask a question about your homework!
+                  Ask Homework Questions!
                 </Link>
 
                 {Auth.loggedIn() ? (
