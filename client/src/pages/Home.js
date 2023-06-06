@@ -51,9 +51,9 @@ const Home = () => {
       <div className="flex-row justify-center">
         <div className="col-12 col-md-10 my-3">
           <section className="mb-5">
-            <h2 className="is-size-2 has-text-black has-text-weight-bold mb-3">
+            <h1 className="is-size-1 has-text-black has-text-weight-bold mb-3">
               Create a new session
-            </h2>
+            </h1>
             <button className="button is-success" onClick={handleCreateSession}>
               Create Session
             </button>

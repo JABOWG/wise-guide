@@ -82,19 +82,42 @@ const UserForm = () => {
     <section className="section">
       <div className="container">
         <div className="columns is-multiline is-tablet">
-          <div className="column is-two-fifths">
+          <div className="column is-two-fifths card">
             <h2 className="is-size-3 is-size-4-mobile pb-4">
-              Find the answers to all your questions
+              Your AI Tutor for Homework and Assignments
             </h2>
-            <p>
-              Welcome to WiseGuide - your AI tutor and knowledge companion!
-              Whether you have burning questions or need guidance on any topic,
-              WiseGuide is here to assist you. Ask anything, explore new ideas,
-              and engage in enlightening conversations. Create personalized
-              sessions to store and revisit your discussions. With WiseGuide,
-              the possibilities are endless. Let's embark on a journey of
-              knowledge together!
+            <p className="subtitle">
+              Welcome to WiseGuide - Wise Guide is an AI-powered tutor that is designed to assist students with any difficulties they have with homework and assignments. Whether it's math, science, history, or any other subject, Wise Guide is here to help you improve your knowledge and grades.
             </p>
+            <p className="subtitle">
+              Our advanced AI algorithms analyze your questions and provide
+              detailed explanations, step-by-step solutions, and additional
+              resources to help you understand the concepts better. With Wise
+              Guide, you'll never feel stuck or overwhelmed by your assignments
+              again.
+            </p>
+            <ul>
+              <ul>
+                <i className="fas fa-check-circle"></i>
+                Personalized Assistance: Wise Guide tailors its responses to your
+                specific questions and learning needs.
+              </ul>
+              <ul>
+                <i className="fas fa-check-circle"></i>
+                Step-by-Step Solutions: Get detailed step-by-step solutions to
+                complex problems.
+              </ul>
+              <ul>
+                <i className="fas fa-check-circle"></i>
+                Interactive Learning: Engage in interactive learning experiences
+                that make studying enjoyable.
+              </ul>
+              <ul>
+                <i className="fas fa-check-circle"></i>
+                Progress Tracking: Monitor your progress and track your
+                improvements over time.
+              </ul>
+            </ul>
           </div>
           <div className="column">
             <div className="card">
@@ -126,6 +149,7 @@ const UserForm = () => {
                                   id="signup-username"
                                   name="username"
                                   type="text"
+                                  placeholder="Your username"
                                   value={signupFormState.username}
                                   onChange={handleSignupChange}
                                 />
@@ -140,6 +164,7 @@ const UserForm = () => {
                                   className="input"
                                   id="signup-email"
                                   name="email"
+                                  placeholder="Your email"
                                   type="email"
                                   value={signupFormState.email}
                                   onChange={handleSignupChange}
@@ -158,6 +183,7 @@ const UserForm = () => {
                                   className="input"
                                   id="signup-password"
                                   name="password"
+                                  placeholder="Your password"
                                   type="password"
                                   value={signupFormState.password}
                                   onChange={handleSignupChange}

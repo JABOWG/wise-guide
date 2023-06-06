@@ -9,10 +9,10 @@ const SessionList = ({ sessions }) => {
 
   return (
     <>
-      <h1 className="is-size-1 has-text-black has-text-weight-bold mb-5">
+      <h2 className="is-size-2 has-text-black has-text-weight-bold mb-5">
         Recent Sessions
-      </h1>
-      <div className="columns is-multiline">
+      </h2>
+      <div className="columns is-multiline card">
         {/* Map over each session and create a card */}
         {sessions.map((session) => (
           <div className="column is-one-third" key={session._id}>

@@ -7,30 +7,30 @@ const Navbar = () => {
     <>
       {/* Render the navigation bar */}
       {Authservice.loggedIn() ? (
-        <nav className="navbar" role="navigation" aria-label="main navigation">
+        <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             {/* Link to the home page */}
-            <Link to="/" className="navbar-item">
-              Home
+            <Link to="/" className="navbar-item is-size-4">
+              Wise Guide
             </Link>
           </div>
           <div className="navbar-menu">
             <div className="navbar-end">
               {/* Link to the sessions page */}
-              <Link to="/sessions" className="navbar-item">
+              <Link to="/sessions" className="navbar-item is-size-4">
                 My Sessions
               </Link>
               {/* Link to the user's profile page */}
-              <Link to="/me" className="navbar-item">
+              <Link to="/me" className="navbar-item is-size-4">
                 My Profile
               </Link>
               {/* Logout button */}
-              <button
-                className="btn btn-lg btn-light m-2"
+              <Link
+                className="navbar-item is-size-4"
                 onClick={Authservice.logout}
               >
                 Logout
-              </button>
+              </Link>
             </div>
           </div>
         </nav>
@@ -38,7 +38,7 @@ const Navbar = () => {
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             {/* Link to the home page */}
-            <div className="navbar-item">WiseGuide</div>
+            <div className="navbar-item is-size-4">WiseGuide</div>
           </div>
         </nav>
       )}
