@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 
 import { GET_RECENT_SESSIONS } from "../utils/queries";
-import { CREATE_SESSION } from "../utils/mutations";
+import { CREATE_SESSION, REMOVE_SESSION } from "../utils/mutations";
 
 import SessionList from "../components/SessionList";
 import AuthService from "../utils/auth";
@@ -22,6 +22,15 @@ const Home = () => {
   const [createSession, { loading: sessionLoading, error: sessionError }] =
     useMutation(CREATE_SESSION);
 
+  // useMutation hook to delete a session
+  const [removeSession, { loading: deleteLoading, error: deleteError }] =
+    useMutation(REMOVE_SESSION);
+  
+  // Call the refetch function whenever the sessions array changes
+  useEffect(() => {
+    refetch();
+  }, [sessions]);
+
   // Handle the creation of a new session
   const handleCreateSession = async (event) => {
     try {
@@ -34,6 +43,19 @@ const Home = () => {
       navigate(`/session/${sessionId}`);
 
       // Refetch the recent sessions after the creation of a new session
+      refetch();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Handle the deletion of a new session
+  const handleDeleteSession = async (sessionId) => {
+    try {
+      // Delete the session
+      await removeSession({ variables: { sessionId } });
+
+      // Refetch the recent sessions after the deletion of a new session
       refetch();
     } catch (err) {
       console.error(err);
@@ -61,7 +83,10 @@ const Home = () => {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <SessionList sessions={sessions} />
+            <SessionList
+              sessions={sessions}
+              handleDeleteSession={handleDeleteSession}
+            />
           )}
         </div>
       </div>
