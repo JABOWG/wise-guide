@@ -97,11 +97,7 @@ const SingleSession = () => {
   const renderChatBubbles = () => {
     // Check if there are no messages in the session data
     if (!sessionData.messages || sessionData.messages.length === 0) {
-      return (
-        <div className="container content has-text-centered">
-          <h1 className="title">Ask Away!</h1>
-        </div>
-      ); // Render a message indicating no messages
+      return <div>Ask Away!</div>; // Render a message indicating no messages
     }
 
     // Map through the messages in the session data
