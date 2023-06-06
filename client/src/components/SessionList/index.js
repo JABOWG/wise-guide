@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const SessionList = ({ sessions }) => {
+const SessionList = ({ sessions, handleDeleteSession }) => {
   // Check if there are no sessions
   if (!sessions.length) {
     return <h3>No Sessions Yet</h3>;
@@ -16,8 +16,8 @@ const SessionList = ({ sessions }) => {
         {/* Map over each session and create a card */}
         {sessions.map((session) => (
           <div className="column is-one-third" key={session._id}>
-            <Link to={`/session/${session._id}`}>
-              <div className="card">
+            <div className="card">
+              <Link to={`/session/${session._id}`}>
                 <div className="card-content">
                   {/* Check if the session has a message */}
                   {session.messages[0] ? (
@@ -34,8 +34,16 @@ const SessionList = ({ sessions }) => {
                     </p>
                   )}
                 </div>
-              </div>
-            </Link>
+              </Link>
+              <footer className="card-footer">
+                <button
+                  className="delete-button card-footer-item button is-danger has-text-white"
+                  onClick={() => handleDeleteSession(session._id)}
+                >
+                  <i className="fa-solid fa-trash-can"></i>
+                </button>
+              </footer>
+            </div>
           </div>
         ))}
       </div>
