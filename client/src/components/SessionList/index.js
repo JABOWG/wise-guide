@@ -12,19 +12,19 @@ const SessionList = ({ sessions, handleDeleteSession }) => {
       <h2 className="is-size-2 has-text-black has-text-weight-bold mb-5">
         Recent Sessions
       </h2>
-      <div className="columns is-multiline card">
+      <div className="columns is-multiline">
         {/* Map over each session and create a card */}
         {sessions.map((session) => (
           <div className="column is-one-third" key={session._id}>
             <div className="card">
               <Link to={`/session/${session._id}`}>
-                <div className="card-content">
+                <div className="card-content session-content">
                   {/* Check if the session has a message */}
                   {session.messages[0] ? (
                     <p className="is-size-5 has-text-weight-bold">
                       {/* Display the user question, truncating it if necessary */}
-                      {session.messages[0].userQuestion.length > 30
-                        ? session.messages[0].userQuestion.slice(0, 30) + "..."
+                      {session.messages[0].userQuestion.length > 45
+                        ? session.messages[0].userQuestion.slice(0, 45) + "..."
                         : session.messages[0].userQuestion}
                     </p>
                   ) : (

@@ -8,6 +8,8 @@ import { CREATE_SESSION, REMOVE_SESSION } from "../utils/mutations";
 import SessionList from "../components/SessionList";
 import AuthService from "../utils/auth";
 
+import "../assets/css/Home.css";
+
 const Home = () => {
   const navigate = useNavigate();
   const limit = 5; // number of recent sessions we want to display on home page
@@ -25,7 +27,7 @@ const Home = () => {
   // useMutation hook to delete a session
   const [removeSession, { loading: deleteLoading, error: deleteError }] =
     useMutation(REMOVE_SESSION);
-  
+
   // Call the refetch function whenever the sessions array changes
   useEffect(() => {
     refetch();

@@ -7,6 +7,8 @@ import { REMOVE_SESSION } from "../utils/mutations";
 
 import AuthService from "../utils/auth";
 
+import "../assets/css/Sessions.css"
+
 const Sessions = () => {
   const navigate = useNavigate();
   const { loading, data, refetch } = useQuery(GET_ALL_SESSIONS);
@@ -62,13 +64,13 @@ const Sessions = () => {
             <div className="column is-one-third" key={session._id}>
               <div className="card">
                 <Link to={`/session/${session._id}`}>
-                  <div className="card-content">
+                  <div className="card-content session-content">
                     {/* Check if the session has a message */}
                     {session.messages[0] ? (
                       <p className="is-size-5 has-text-weight-bold">
                         {/* Display the user question, truncating it if necessary */}
-                        {session.messages[0].userQuestion.length > 30
-                          ? session.messages[0].userQuestion.slice(0, 30) +
+                        {session.messages[0].userQuestion.length > 45
+                          ? session.messages[0].userQuestion.slice(0, 45) +
                             "..."
                           : session.messages[0].userQuestion}
                       </p>

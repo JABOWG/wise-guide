@@ -8,7 +8,7 @@ const Navbar = () => {
       {/* Render the navigation bar */}
       {Authservice.loggedIn() ? (
         <nav
-          className="navbar is-dark"
+          className="navbar"
           role="navigation"
           aria-label="main navigation"
         >
