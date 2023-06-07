@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 
 import { GET_SESSION } from "../utils/queries";
-import { CREATE_MESSAGE, REMOVE_SESSION } from "../utils/mutations";
+import { CREATE_MESSAGE } from "../utils/mutations";
 
 import "../assets/css/SingleSession.css";
 import AuthService from "../utils/auth";
@@ -11,14 +11,16 @@ import AuthService from "../utils/auth";
 const SingleSession = () => {
   const { sessionId } = useParams();
   const navigate = useNavigate();
+  const chatEndRef = useRef(null);
 
   // Gets all the sessions for the user
-  const { loading: querySessionLoading, data: querySessionData } = useQuery(
-    GET_SESSION,
-    {
-      variables: { sessionId: sessionId },
-    }
-  );
+  const {
+    loading: querySessionLoading,
+    data: querySessionData,
+    refetch,
+  } = useQuery(GET_SESSION, {
+    variables: { sessionId: sessionId },
+  });
 
   // mutation to create a message
   const [createMessage, { loading: messageLoading, error: messageError }] =
@@ -26,9 +28,12 @@ const SingleSession = () => {
   // mutation to delete a session
 
   const [messageState, setMessageState] = useState("");
-  const [sessionData, setSessionData] = useState(
-    querySessionData?.session || {}
-  );
+  const [sessionData, setSessionData] = useState(null); // Initialize sessionData as null
+
+  // Refetch the session data when the page is re-rendered
+  useEffect(() => {
+    refetch();
+  });
 
   useEffect(() => {
     if (querySessionData?.session) {
@@ -36,14 +41,21 @@ const SingleSession = () => {
     }
   }, [querySessionData]);
 
+  // Scroll the screen to the location of the reference on initial load and when a message is added
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView();
+    }
+  }, [sessionData, messageLoading]);
+
   // Check if the user is not logged in
   if (!AuthService.loggedIn()) {
     navigate("/userform"); // Redirect to login page
     return null; // Render nothing else
   }
 
-  // Check if the session data is still loading
-  if (querySessionLoading) {
+  // Check if the session data is still loading or sessionData is null
+  if (querySessionLoading || sessionData === null) {
     return <div>Loading...</div>;
   }
 
@@ -148,6 +160,7 @@ const SingleSession = () => {
         <div className="columns">
           <div className="column">{renderChatBubbles()}</div>
         </div>
+        <div ref={chatEndRef}></div>
       </div>
       <form onSubmit={handleMessageSubmit} className="form-container">
         <div className="field">
