@@ -1,4 +1,5 @@
 .navbar {
+  background-color: #7286A0;
   position: fixed;
   top: 0;
   left: 0;
@@ -6,6 +7,10 @@
   z-index: 9999;
 }
 
+.navbar-item{
+    color: #FFFFFF;
+}
+
 .container {
-  padding-top: 5vh; /* Adjust the value based on your navbar's height */
+  padding-top: 10vh; /* Adjust the value based on your navbar's height */
 }

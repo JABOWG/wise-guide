@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 
-import SessionList from "../components/SessionList";
 import AuthService from "../utils/auth";
 
 const Profile = () => {

@@ -20,7 +20,7 @@ const UserForm = () => {
 
   // Mutation functions for adding a user and logging in
   const [addUser, { error : signupError, signupData }] = useMutation(ADD_USER);
-  const [login, { loginError, loginData }] = useMutation(LOGIN_USER);
+  const [login, { error: loginError, loginData }] = useMutation(LOGIN_USER);
 
   // Event handler for signup form change
   const handleSignupChange = (event) => {
@@ -204,7 +204,6 @@ const UserForm = () => {
                           {signupError && (
                             <div className="notification is-danger mt-3">
                               {signupError.message}
-                              {console.log(signupError)}
                             </div>
                           )}
                         </div>

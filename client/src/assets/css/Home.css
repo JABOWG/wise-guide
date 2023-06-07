@@ -1,0 +1,8 @@
+.session-content {
+  height: 15vh;
+  color: #04030f;
+}
+
+.session-content:hover {
+  color: #71A9F7;
+}
