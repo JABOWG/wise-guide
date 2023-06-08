@@ -111,9 +111,9 @@ const SingleSession = () => {
     if (!sessionData.messages || sessionData.messages.length === 0) {
       if (messageLoading) {
         return (
-          <div className="message is-danger">
+          <div className="message is-warning">
             <div className="message-body">
-              Error occurred while creating message
+              Working on getting your answer, this may take a moment...
             </div>
           </div>
         );

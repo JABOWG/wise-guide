@@ -19,7 +19,7 @@ const UserForm = () => {
   });
 
   // Mutation functions for adding a user and logging in
-  const [addUser, { error : signupError, signupData }] = useMutation(ADD_USER);
+  const [addUser, { error: signupError, signupData }] = useMutation(ADD_USER);
   const [login, { error: loginError, loginData }] = useMutation(LOGIN_USER);
 
   // Event handler for signup form change
@@ -87,7 +87,11 @@ const UserForm = () => {
               Your AI Tutor for Homework and Assignments
             </h2>
             <p className="subtitle">
-              Welcome to WiseGuide - Wise Guide is an AI-powered tutor that is designed to assist students with any difficulties they have with homework and assignments. Whether it's math, science, history, or any other subject, Wise Guide is here to help you improve your knowledge and grades.
+              Welcome to WiseGuide - Wise Guide is an AI-powered tutor that is
+              designed to assist students with any difficulties they have with
+              homework and assignments. Whether it's math, science, history, or
+              any other subject, Wise Guide is here to help you improve your
+              knowledge and grades.
             </p>
             <p className="subtitle">
               Our advanced AI algorithms analyze your questions and provide
@@ -96,6 +100,25 @@ const UserForm = () => {
               Guide, you'll never feel stuck or overwhelmed by your assignments
               again.
             </p>
+            <ul className="custom-list">
+              <li>
+                <i className="fas fa-check-circle"></i> Personalized Assistance:
+                Wise Guide tailors its responses to your specific questions and
+                learning needs.
+              </li>
+              <li>
+                <i className="fas fa-check-circle"></i> Step-by-Step Solutions:
+                Get detailed step-by-step solutions to complex problems.
+              </li>
+              <li>
+                <i className="fas fa-check-circle"></i> Interactive Learning:
+                Engage in interactive learning experiences that make studying
+                enjoyable.
+              </li>
+              <li>
+                <i className="fas fa-check-circle"></i> Progress Tracking:
+                Monitor your progress and track your improvements over time.
+              </li>
             <ul>
               <ul>
                 {/* <i className="fas fa-check-circle"></i> */}
