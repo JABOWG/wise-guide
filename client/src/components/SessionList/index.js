@@ -40,7 +40,8 @@ const SessionList = ({ sessions, handleDeleteSession }) => {
                   className="delete-button card-footer-item button is-danger has-text-white"
                   onClick={() => handleDeleteSession(session._id)}
                 >
-                  <i className="fa-solid fa-trash-can"></i>
+                  Delete
+                  {/* <i className="fa-solid fa-trash-can"></i> */}
                 </button>
               </footer>
             </div>

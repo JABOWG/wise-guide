@@ -87,7 +87,8 @@ const Sessions = () => {
                     className="delete-button card-footer-item button is-danger has-text-white"
                     onClick={() => handleDeleteSession(session._id)}
                   >
-                    <i className="fa-solid fa-trash-can"></i>
+                    {/* <i className="fa-solid fa-trash-can"></i> */}
+                    Delete
                   </button>
                 </footer>
               </div>
