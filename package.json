@@ -16,5 +16,8 @@
   "dependencies": {
     "concurrently": "^8.0.1",
     "dotenv": "^16.1.1"
+  },
+  "engines": {
+    "node": "16.19.0"
   }
 }
