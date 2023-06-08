@@ -173,24 +173,35 @@ const resolvers = {
 
     // Resolver for creating a new user
     addUser: async (parent, { username, email, password }) => {
+      // Check if the email is already taken
+      const existingUserEmail = await User.findOne({ email });
+      if (existingUserEmail) {
+        throw new Error("Email already in use");
+      }
+
+      // Check if the username is already taken
+      const existingUserName = await User.findOne({ username });
+      if (existingUserName) {
+        throw new Error("Username already taken");
+      }
+
       try {
         // Create a new user and generate a token for authentication
         const user = await User.create({ username, email, password });
         const token = signToken(user);
         return { token, user };
       } catch (error) {
-        //console.log(error);
-        if(error.name === 'ValidationError') {
-          const errorMessages = Object.values(error.errors).map((err) => err.message);
-          //console.log(errorMessages)
-
+        if (error.name === "ValidationError") {
+          const errorMessages = Object.values(error.errors).map(
+            (err) => err.message
+          );
           throw new Error(errorMessages.join(""));
         } else {
           throw new Error("Failed to create user");
         }
       }
     },
-
+    
     // Resolver for removing a user
     removeUser: async (parent, args, context) => {
       try {

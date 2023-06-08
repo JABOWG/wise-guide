@@ -1,52 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Authservice from "../../utils/auth";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <>
-      {/* Render the navigation bar */}
-      {Authservice.loggedIn() ? (
-        <nav
-          className="navbar"
-          role="navigation"
-          aria-label="main navigation"
+    <nav
+      className="navbar is-fixed-top"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div className="navbar-brand">
+        <Link to="/" className="navbar-item">
+          WiseGuide
+        </Link>
+
+        <button
+          className={`navbar-burger burger ${isMenuOpen ? "is-active" : ""}`}
+          aria-label="menu"
+          aria-expanded={isMenuOpen ? "true" : "false"}
+          onClick={handleMenuToggle}
         >
-          <div className="navbar-brand">
-            {/* Link to the home page */}
-            <Link to="/" className="navbar-item is-size-4">
-              Wise Guide
-            </Link>
-          </div>
-          <div className="navbar-menu">
-            <div className="navbar-end">
-              {/* Link to the sessions page */}
-              <Link to="/sessions" className="navbar-item is-size-4">
-                My Sessions
-              </Link>
-              {/* Link to the user's profile page */}
-              <Link to="/me" className="navbar-item is-size-4">
-                My Profile
-              </Link>
-              {/* Logout button */}
-              <Link
-                className="navbar-item is-size-4"
-                onClick={Authservice.logout}
-              >
-                Logout
-              </Link>
-            </div>
-          </div>
-        </nav>
-      ) : (
-        <nav className="navbar" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            {/* Link to the home page */}
-            <div className="navbar-item is-size-4">WiseGuide</div>
-          </div>
-        </nav>
-      )}
-    </>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div
+        className={`navbar-menu ${
+          isMenuOpen ? "is-active" : ""
+        } custom-navbar-menu`}
+        onClick={handleMenuToggle}
+      >
+        <div className="navbar-end">
+          <Link to="/" className="navbar-item">
+            Home
+          </Link>
+          <Link to="/me" className="navbar-item">
+            Profile
+          </Link>
+          <Link to="/sessions" className="navbar-item">
+            Sessions
+          </Link>
+          <Link to="/userform" className="navbar-item">
+            Log Out
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
 };
+
 export default Navbar;
