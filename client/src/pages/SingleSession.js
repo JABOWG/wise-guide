@@ -117,8 +117,9 @@ const SingleSession = () => {
             </div>
           </div>
         );
-      }
-      else { return <div>Ask Away!</div>; } // Render a message indicating no messages
+      } else {
+        return <div>Ask Away!</div>;
+      } // Render a message indicating no messages
     }
 
     // Map through the messages in the session data
