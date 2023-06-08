@@ -77,7 +77,7 @@ SO THAT I can consistently learn about new subjects
 
 ## Getting Started
 
-[Deployed Website](https://wise-guide.herokuapp.com/)
+[Deployed Website](https://mighty-island-49010.herokuapp.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
