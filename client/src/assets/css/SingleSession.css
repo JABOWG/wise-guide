@@ -1,0 +1,16 @@
+.form-container {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 2em;
+
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.message-input {
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  resize: none;
+  overflow-y: auto;
+}
