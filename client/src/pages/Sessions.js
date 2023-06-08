@@ -49,8 +49,7 @@ const Sessions = () => {
             My Sessions
           </h1>
           <h3>
-            Looks like you have no sessions yet. Click the "create session"
-            button to get started!
+            Looks like you have no sessions yet. Navigate back to the home page to get started on you first session!
           </h3>
         </div>
       </section>
