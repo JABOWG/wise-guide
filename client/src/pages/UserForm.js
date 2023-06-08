@@ -119,27 +119,6 @@ const UserForm = () => {
                 <i className="fas fa-check-circle"></i> Progress Tracking:
                 Monitor your progress and track your improvements over time.
               </li>
-            <ul>
-              <ul>
-                {/* <i className="fas fa-check-circle"></i> */}
-                Personalized Assistance: Wise Guide tailors its responses to your
-                specific questions and learning needs.
-              </ul>
-              <ul>
-                {/* <i className="fas fa-check-circle"></i> */}
-                Step-by-Step Solutions: Get detailed step-by-step solutions to
-                complex problems.
-              </ul>
-              <ul>
-                {/* <i className="fas fa-check-circle"></i> */}
-                Interactive Learning: Engage in interactive learning experiences
-                that make studying enjoyable.
-              </ul>
-              <ul>
-                {/* <i className="fas fa-check-circle"></i> */}
-                Progress Tracking: Monitor your progress and track your
-                improvements over time.
-              </ul>
             </ul>
           </div>
           <div className="column">
