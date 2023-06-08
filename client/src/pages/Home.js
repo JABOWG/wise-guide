@@ -1,18 +1,15 @@
 import React, { useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_RECENT_SESSIONS } from "../utils/queries";
 import { CREATE_SESSION, REMOVE_SESSION } from "../utils/mutations";
-
 import SessionList from "../components/SessionList";
 import AuthService from "../utils/auth";
-
 import "../assets/css/Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const limit = 5; // number of recent sessions we want to display on home page
+  const limit = 5; // number of recent sessions we want to display on the home page
 
   // useQuery hook to fetch all sessions
   const { loading, data, refetch } = useQuery(GET_RECENT_SESSIONS, {
@@ -35,17 +32,14 @@ const Home = () => {
 
   // Handle the creation of a new session
   const handleCreateSession = async (event) => {
+    event.preventDefault();
+
     try {
-      event.preventDefault();
-      // Create a new session
+      // Create the session
       const { data } = await createSession();
 
-      // redirect the user to the new session's page
-      const sessionId = data.createSession._id;
-      navigate(`/session/${sessionId}`);
-
-      // Refetch the recent sessions after the creation of a new session
-      refetch();
+      // Redirect the user to the session page
+      navigate(`/session/${data.createSession._id}`);
     } catch (err) {
       console.error(err);
     }
@@ -66,33 +60,44 @@ const Home = () => {
 
   // Check if the user is logged in
   if (!AuthService.loggedIn()) {
-    navigate("/userform"); // Redirect to the login page
+    navigate("/userform"); // Redirect to login page
     return null; // Render nothing else
   }
 
   return (
-    <main>
-      <div className="flex-row justify-center">
-        <div className="col-12 col-md-10 my-3">
-          <section className="mb-5">
-            <h1 className="is-size-1 has-text-black has-text-weight-bold mb-3">
-              Create a new session
+    <section className="section">
+      <div className="container">
+        <div className="columns is-centered is-multiline is-variable is-8">
+          <div className="column is-12-mobile is-8-tablet is-6-desktop">
+            <h1 className="title is-1 is-spaced has-text-black has-text-weight-bold">
+              Welcome to the Home Page
             </h1>
-            <button className="button is-success" onClick={handleCreateSession}>
-              Create Session
-            </button>
-          </section>
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <SessionList
-              sessions={sessions}
-              handleDeleteSession={handleDeleteSession}
-            />
-          )}
+            <p className="subtitle is-5 has-text-black">
+              Start by creating a new session or browse your recent sessions.
+            </p>
+            <div className="buttons">
+              <button
+                className="button is-primary is-large"
+                onClick={handleCreateSession}
+              >
+                Create Session
+              </button>
+            </div>
+          </div>
+          <div className="column is-12-mobile is-8-tablet is-6-desktop">
+            <h2 className="title is-3 has-text-black">Recent Sessions</h2>
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <SessionList
+                sessions={sessions}
+                handleDeleteSession={handleDeleteSession}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 };
 
